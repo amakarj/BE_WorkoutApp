@@ -21,6 +21,7 @@ import data.Exercise;
 import data.Measurements;
 import data.Person;
 import data.Workout;
+import data.WorkoutExercise;
 
 @Path("/workoutservice")
 public class WorkoutService {
@@ -328,5 +329,48 @@ public class WorkoutService {
 		return list;
 
 	}
+	
+	// WORKOUTEXERCISE SERVICES
+	
+		@GET
+		@Path("/readworkoutexercise/{workoutid}")
+		@Produces(MediaType.APPLICATION_JSON)
+		public ArrayList<WorkoutExercise> readWorkoutExercises(@PathParam("workoutid") int workoutid) {
+
+			ArrayList<WorkoutExercise> list = new ArrayList<>();
+			Connection conn = Connections.getConnection();
+			try {
+				String sql = "select * from workoutexercise where workoutid=?";
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, workoutid);
+				ResultSet RS = stmt.executeQuery();
+
+			
+				while (RS.next()) {
+					WorkoutExercise workoutexercise = new WorkoutExercise();
+					workoutexercise.setWorkoutexerciseid(RS.getInt("workoutexerciseid"));
+					workoutexercise.setWorkoutid(RS.getInt("workoutid"));
+					workoutexercise.setExerciseid(RS.getInt("exerciseid"));
+					workoutexercise.setReps(RS.getInt("reps"));
+					workoutexercise.setWeights(RS.getInt("weights"));
+					workoutexercise.setDuration(RS.getInt("duration"));
+					
+					list.add(workoutexercise);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			return list;
+
+		}
 
 }
