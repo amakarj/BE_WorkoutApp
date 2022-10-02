@@ -93,4 +93,25 @@ public class WorkoutExercise {
 		this.duration = duration;
 	}
 
+
+	public int getWorkoutid() {
+		return workoutid;
+	}
+
+
+	public void setWorkoutid(int workoutid) {
+		this.workoutid = workoutid;
+	}
+
+
+	public int getExerciseid() {
+		return exerciseid;
+	}
+
+
+	public void setExerciseid(int exerciseid) {
+		this.exerciseid = exerciseid;
+	}
+	
+
 }
