@@ -3,6 +3,7 @@ package data;
 public class Workout {
 
 	private int workoutid;
+	private int personid;
 	private String date;
 
 	public Workout() {
@@ -13,10 +14,11 @@ public class Workout {
 	 * @param workoutid
 	 * @param date
 	 */
-	public Workout(int workoutid, String date) {
+	public Workout(int workoutid, String date, int personid) {
 		super();
 		this.workoutid = workoutid;
 		this.date = date;
+		this.personid = personid;
 	}
 
 	/**
@@ -45,6 +47,14 @@ public class Workout {
 	 */
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public int getPersonid() {
+		return personid;
+	}
+
+	public void setPersonid(int personid) {
+		this.personid = personid;
 	}
 
 }
