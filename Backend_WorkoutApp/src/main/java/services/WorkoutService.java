@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import conn.Connections;
+import data.Exercise;
 import data.Measurements;
 import data.Person;
 
@@ -208,6 +209,44 @@ public class WorkoutService {
 			}
 		}
 		ArrayList<Measurements> list = readMeas(meas.getPersonid());
+		return list;
+
+	}
+	
+	// EXERCISE SERVICES
+	@GET
+	@Path("/readexercises")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Exercise> readExercises() {
+
+		ArrayList<Exercise> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from exercise";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Exercise exercise = new Exercise();
+				exercise.setExerciseid(RS.getInt("exerciseid"));
+				exercise.setMovename(RS.getString("movename"));
+				exercise.setMovepic(RS.getString("picture"));
+				exercise.setChecked(RS.getInt("checked"));
+				list.add(exercise);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		return list;
 
 	}
