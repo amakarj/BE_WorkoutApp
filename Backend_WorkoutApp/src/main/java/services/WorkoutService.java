@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -131,15 +132,14 @@ public class WorkoutService {
 
 	// MEASUREMENTS SERVICES
 	@GET
-	@Path("/readmeas")
+	@Path("/readmeas/{personid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Measurements> readMeas(int personid) {
+	public ArrayList<Measurements> readMeas(@PathParam("personid") int personid) {
 
 		ArrayList<Measurements> list = new ArrayList<>();
-
 		Connection conn = Connections.getConnection();
 		try {
-			String sql = "select * from person inner join measurements on person.personid=meas.personid where person.personid=?";
+			String sql = "select * from person inner join measurements on person.personid=measurements.personid where person.personid=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, personid);
 			ResultSet RS = stmt.executeQuery();
@@ -147,6 +147,7 @@ public class WorkoutService {
 		
 			while (RS.next()) {
 				Measurements meas = new Measurements();
+				meas.setPersonid(RS.getInt("personid"));
 				meas.setMeasid(RS.getInt("measid"));
 				meas.setWeight(RS.getInt("weight"));
 				meas.setChest(RS.getInt("chest"));
@@ -155,7 +156,6 @@ public class WorkoutService {
 				meas.setBicep(RS.getInt("bicep"));
 				meas.setThigh(RS.getInt("thigh"));
 				meas.setDate(RS.getString("date"));
-
 				list.add(meas);
 			}
 		} catch (SQLException e) {
