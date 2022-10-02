@@ -13,6 +13,10 @@ public class Person {
 	public Person() {
 		super();
 	}
+	public Person(int personid, String firstname) {
+		this.personid=personid;
+		this.firstname=firstname;
+	}
 	
 	public Person(int personid, String firstname, String lastname, String location, int height, String slogan,
 			String picture) {
