@@ -20,6 +20,7 @@ import conn.Connections;
 import data.Exercise;
 import data.Measurements;
 import data.Person;
+import data.Workout;
 
 @Path("/workoutservice")
 public class WorkoutService {
@@ -234,6 +235,83 @@ public class WorkoutService {
 				exercise.setMovepic(RS.getString("picture"));
 				exercise.setChecked(RS.getInt("checked"));
 				list.add(exercise);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+
+	}
+	
+	// WORKOUT SERVICES
+	
+	@GET
+	@Path("/readworkouts/{personid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Workout> readWorkouts(@PathParam("personid") int personid) {
+
+		ArrayList<Workout> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from workout";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Workout workout = new Workout();
+				workout.setWorkoutid(RS.getInt("workoutid"));
+				workout.setDate(RS.getString("date"));
+				workout.setPersonid(RS.getInt("personid"));
+				
+				list.add(workout);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+
+	}
+	// Read workouts by workoutid
+	@GET
+	@Path("/readworkoutsbyid/{workoutid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Workout> readWorkoutsByWorkoutid(@PathParam("workoutid") int workoutid) {
+
+		ArrayList<Workout> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from workout where workoutid=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, workoutid);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Workout workout = new Workout();
+				workout.setWorkoutid(RS.getInt("workoutid"));
+				workout.setDate(RS.getString("date"));
+				workout.setPersonid(RS.getInt("personid"));
+				
+				list.add(workout);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
