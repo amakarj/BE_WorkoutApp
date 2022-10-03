@@ -109,7 +109,7 @@ public class WorkoutService {
 		Connection conn = Connections.getConnection();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(
-					"update person set firstname=?, lastname=?, location=?, height=?, slogan=?, picture=? where id=?");
+					"update person set firstname=?, lastname=?, location=?, height=?, slogan=?, picture=? where personid=?");
 			pstmt.setString(1, person.getFirstname());
 			pstmt.setString(2, person.getLastname());
 			pstmt.setString(3, person.getLocation());
