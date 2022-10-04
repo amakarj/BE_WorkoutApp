@@ -235,7 +235,7 @@ public class WorkoutService {
 				exercise.setExerciseid(RS.getInt("exerciseid"));
 				exercise.setMovename(RS.getString("movename"));
 				exercise.setMovepic(RS.getString("picture"));
-				exercise.setChecked(RS.getInt("checked"));
+				exercise.setChecked(RS.getBoolean("checked"));
 				list.add(exercise);
 			}
 		} catch (SQLException e) {
@@ -252,6 +252,50 @@ public class WorkoutService {
 
 		return list;
 
+	}
+	
+	@PUT
+	@Path("/updateexercises")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<Exercise> updateExercises(ArrayList<Exercise> list) {
+		Connection conn = Connections.getConnection();
+		System.out.println(list);
+		int i = 0;
+		int id = 1;
+		
+		
+		try {
+			
+			while (i < list.size()) {
+				
+				Exercise exercise = list.get(i);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"update exercise set movename=?, picture=?, checked=? where exerciseid=?");
+			pstmt.setString(1, exercise.getMovename());
+			pstmt.setString(2, exercise.getMovepic());
+			pstmt.setBoolean(3, exercise.isChecked());
+			pstmt.setInt(4, id);
+			pstmt.executeUpdate();
+			i++;
+			id++;
+			
+			}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		ArrayList<Exercise> exerciselist = readExercises();
+		System.out.println(readExercises());
+		return exerciselist;
 	}
 	
 	// WORKOUT SERVICES

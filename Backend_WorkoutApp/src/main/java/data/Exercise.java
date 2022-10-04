@@ -5,7 +5,7 @@ public class Exercise {
 	private int exerciseid;
 	private String movename;
 	private String movepic;
-	private int checked;
+	private boolean checked;
 	
 //	Hei
 	public Exercise() {
@@ -13,12 +13,20 @@ public class Exercise {
 	}
 
 	/**
+	 * @return the checked
+	 */
+	public boolean getChecked() {
+		return checked;
+	}
+
+
+	/**
 	 * @param exerciseid
 	 * @param movename
 	 * @param movepic
 	 * @param checked
 	 */
-	public Exercise(int exerciseid, String movename, String movepic, int checked) {
+	public Exercise(int exerciseid, String movename, String movepic, boolean checked) {
 		super();
 		this.exerciseid = exerciseid;
 		this.movename = movename;
@@ -71,15 +79,18 @@ public class Exercise {
 	/**
 	 * @return the checked
 	 */
-	public int isChecked() {
+	public boolean isChecked() {
 		return checked;
 	}
 
 	/**
 	 * @param checked the checked to set
 	 */
-	public void setChecked(int checked) {
+	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
 
+	public String toString() {
+		return movepic + movename + checked;
+	}
 }
