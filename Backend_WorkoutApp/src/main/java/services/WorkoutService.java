@@ -184,7 +184,6 @@ public class WorkoutService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Measurements> addMeas(Measurements meas) {
-
 		Connection conn = Connections.getConnection();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(
@@ -196,8 +195,7 @@ public class WorkoutService {
 			pstmt.setInt(5, meas.getBicep());
 			pstmt.setInt(6, meas.getThigh());
 			pstmt.setString(7, meas.getDate());
-			pstmt.setInt(8, meas.getWeight());
-			pstmt.setInt(9, meas.getPersonid());
+			pstmt.setInt(8, meas.getPersonid());
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
