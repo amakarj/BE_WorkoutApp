@@ -133,6 +133,7 @@ public class WorkoutService {
 		return list;
 	}
 
+	//testing testing
 	// MEASUREMENTS SERVICES
 	@GET
 	@Path("/readmeas/{personid}")
