@@ -529,5 +529,40 @@ public class WorkoutService {
 			return list;
 
 		}
+		
+		@POST
+		@Path("/addworkoutexercise")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		public ArrayList<WorkoutExercise> addWorkout(WorkoutExercise workoutexercise) {
+			System.out.println("toimiiko");
+			ArrayList<WorkoutExercise> list = new ArrayList<>();
+			Connection conn = Connections.getConnection();
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(
+						"insert into workoutexercise(reps,weights,duration,workoutid,exerciseid) values(?, ?, ?, ?, ?)");
+				pstmt.setInt(1, workoutexercise.getReps());
+				pstmt.setInt(2, workoutexercise.getWeights());
+				pstmt.setInt(3, workoutexercise.getDuration());
+				pstmt.setInt(4, workoutexercise.getWorkoutid());
+				pstmt.setInt(5, workoutexercise.getExerciseid());
+				
+				list.add(workoutexercise);
+				System.out.println(list);
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return list;
+		}
 
 }
