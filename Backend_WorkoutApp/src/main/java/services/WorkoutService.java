@@ -296,6 +296,42 @@ public class WorkoutService {
 		return exerciselist;
 	}
 	
+	@GET
+	@Path("/readcheckedexercises")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Exercise> readCheckedExercises() {
+
+		ArrayList<Exercise> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from exercise where checked = 1";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Exercise exercise = new Exercise();
+				exercise.setExerciseid(RS.getInt("exerciseid"));
+				exercise.setMovename(RS.getString("movename"));
+				exercise.setMovepic(RS.getString("picture"));
+				exercise.setChecked(RS.getBoolean("checked"));
+				list.add(exercise);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+
+	}
+	
 	// WORKOUT SERVICES
 	
 	@GET
@@ -318,6 +354,7 @@ public class WorkoutService {
 				workout.setPersonid(RS.getInt("personid"));
 				
 				list.add(workout);
+				System.out.println(list.toString());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -331,6 +368,46 @@ public class WorkoutService {
 			}
 		}
 
+		
+		return list;
+
+	}
+	
+	@GET
+	@Path("/readlastworkout")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Workout> readLastWorkout() {
+
+		ArrayList<Workout> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from workout order by workoutid desc limit 1";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Workout workout = new Workout();
+				workout.setWorkoutid(RS.getInt("workoutid"));
+				workout.setDate(RS.getString("date"));
+				workout.setPersonid(RS.getInt("personid"));
+				
+				list.add(workout);
+				System.out.println(list.toString());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
 		return list;
 
 	}
@@ -354,8 +431,9 @@ public class WorkoutService {
 				workout.setWorkoutid(RS.getInt("workoutid"));
 				workout.setDate(RS.getString("date"));
 				workout.setPersonid(RS.getInt("personid"));
-				
 				list.add(workout);
+				
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -368,10 +446,46 @@ public class WorkoutService {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return list;
-
 	}
+		
+		@POST
+		@Path("/addworkout")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		public ArrayList<Workout> addWorkout(Workout workout) {
+			System.out.println("toimiiko");
+			ArrayList<Workout> list = new ArrayList<>();
+			Connection conn = Connections.getConnection();
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(
+						"insert into workout(date, personid) values(?, ?)");
+				pstmt.setString(1, workout.getDate());
+				pstmt.setInt(2, workout.getPersonid());
+				
+				list.add(workout);
+				System.out.println(list);
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			ArrayList<Workout> list1 = readLastWorkout();
+			return list1;
+
+		}
+
+	
 	
 	// WORKOUTEXERCISE SERVICES
 	
