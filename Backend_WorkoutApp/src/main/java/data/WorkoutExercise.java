@@ -8,6 +8,12 @@ public class WorkoutExercise {
 	private int reps;
 	private int weights;
 	private int duration;
+	private int personid;
+	private String date;
+	private String movename;
+	private String picture;
+	
+	
 	
 
 	public WorkoutExercise() {
@@ -27,6 +33,37 @@ public class WorkoutExercise {
 		this.reps = reps;
 		this.weights = weights;
 		this.duration = duration;
+	}
+
+
+	
+
+
+	/**
+	 * @param workoutid
+	 * @param exerciseid
+	 * @param workoutexerciseid
+	 * @param reps
+	 * @param weights
+	 * @param duration
+	 * @param personid
+	 * @param date
+	 * @param movename
+	 * @param picture
+	 */
+	public WorkoutExercise(int workoutid, int exerciseid, int workoutexerciseid, int reps, int weights, int duration,
+			int personid, String date, String movename, String picture) {
+		super();
+		this.workoutid = workoutid;
+		this.exerciseid = exerciseid;
+		this.workoutexerciseid = workoutexerciseid;
+		this.reps = reps;
+		this.weights = weights;
+		this.duration = duration;
+		this.personid = personid;
+		this.date = date;
+		this.movename = movename;
+		this.picture = picture;
 	}
 
 
@@ -112,6 +149,71 @@ public class WorkoutExercise {
 	public void setExerciseid(int exerciseid) {
 		this.exerciseid = exerciseid;
 	}
+
+
+	/**
+	 * @return the personid
+	 */
+	public int getPersonid() {
+		return personid;
+	}
+
+
+	/**
+	 * @param personid the personid to set
+	 */
+	public void setPersonid(int personid) {
+		this.personid = personid;
+	}
+
+
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	/**
+	 * @return the movename
+	 */
+	public String getMovename() {
+		return movename;
+	}
+
+
+	/**
+	 * @param movename the movename to set
+	 */
+	public void setMovename(String movename) {
+		this.movename = movename;
+	}
+
+
+	/**
+	 * @return the picture
+	 */
+	public String getPicture() {
+		return picture;
+	}
+
+
+	/**
+	 * @param picture the picture to set
+	 */
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 	
 
 }
