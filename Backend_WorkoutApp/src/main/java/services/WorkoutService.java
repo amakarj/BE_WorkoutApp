@@ -47,9 +47,8 @@ public class WorkoutService {
 				person.setHeight(RS.getInt("height"));
 				person.setSlogan(RS.getString("slogan"));
 				person.setPicture(RS.getString("picture"));
-				
-				
-				//creating list
+
+				// creating list
 				list.add(person);
 			}
 		} catch (SQLException e) {
@@ -133,7 +132,7 @@ public class WorkoutService {
 		return list;
 	}
 
-	//testing testing
+	// testing testing
 	// MEASUREMENTS SERVICES
 	@GET
 	@Path("/readmeas/{personid}")
@@ -148,7 +147,6 @@ public class WorkoutService {
 			stmt.setInt(1, personid);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Measurements meas = new Measurements();
 				meas.setPersonid(RS.getInt("personid"));
@@ -177,6 +175,7 @@ public class WorkoutService {
 		return list;
 
 	}
+
 	
 	@GET
 	@Path("/readlastthree")
@@ -221,6 +220,7 @@ public class WorkoutService {
 	}
 	
 	
+
 	@POST
 	@Path("/addmeas")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -238,7 +238,7 @@ public class WorkoutService {
 			pstmt.setInt(6, meas.getThigh());
 			pstmt.setString(7, meas.getDate());
 			pstmt.setInt(8, meas.getPersonid());
-			
+
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -255,7 +255,7 @@ public class WorkoutService {
 		return list;
 
 	}
-	
+
 	// EXERCISE SERVICES
 	@GET
 	@Path("/readexercises")
@@ -269,7 +269,6 @@ public class WorkoutService {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Exercise exercise = new Exercise();
 				exercise.setExerciseid(RS.getInt("exerciseid"));
@@ -293,35 +292,34 @@ public class WorkoutService {
 		return list;
 
 	}
-	
+
 	@PUT
 	@Path("/updateexercises")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ArrayList<Exercise> updateExercises(ArrayList<Exercise> list) {
 		Connection conn = Connections.getConnection();
-		System.out.println(list);
+		// System.out.println(list);
 		int i = 0;
 		int id = 1;
-		
-		
+
 		try {
-			
+
 			while (i < list.size()) {
-				
+
 				Exercise exercise = list.get(i);
-			PreparedStatement pstmt = conn.prepareStatement(
-					"update exercise set movename=?, picture=?, checked=? where exerciseid=?");
-			pstmt.setString(1, exercise.getMovename());
-			pstmt.setString(2, exercise.getMovepic());
-			pstmt.setBoolean(3, exercise.isChecked());
-			pstmt.setInt(4, id);
-			pstmt.executeUpdate();
-			i++;
-			id++;
-			
+				PreparedStatement pstmt = conn
+						.prepareStatement("update exercise set movename=?, picture=?, checked=? where exerciseid=?");
+				pstmt.setString(1, exercise.getMovename());
+				pstmt.setString(2, exercise.getMovepic());
+				pstmt.setBoolean(3, exercise.isChecked());
+				pstmt.setInt(4, id);
+				pstmt.executeUpdate();
+				i++;
+				id++;
+
 			}
-		
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -334,10 +332,10 @@ public class WorkoutService {
 			}
 		}
 		ArrayList<Exercise> exerciselist = readExercises();
-		System.out.println(readExercises());
+		// System.out.println(readExercises());
 		return exerciselist;
 	}
-	
+
 	@GET
 	@Path("/readcheckedexercises")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -350,7 +348,6 @@ public class WorkoutService {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Exercise exercise = new Exercise();
 				exercise.setExerciseid(RS.getInt("exerciseid"));
@@ -373,9 +370,9 @@ public class WorkoutService {
 		return list;
 
 	}
-	
+
 	// WORKOUT SERVICES
-	
+
 	@GET
 	@Path("/readworkouts/{personid}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -388,13 +385,12 @@ public class WorkoutService {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Workout workout = new Workout();
 				workout.setWorkoutid(RS.getInt("workoutid"));
 				workout.setDate(RS.getString("date"));
 				workout.setPersonid(RS.getInt("personid"));
-				
+
 				list.add(workout);
 				System.out.println(list.toString());
 			}
@@ -410,11 +406,10 @@ public class WorkoutService {
 			}
 		}
 
-		
 		return list;
 
 	}
-	
+
 	@GET
 	@Path("/readlastworkout")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -427,13 +422,12 @@ public class WorkoutService {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Workout workout = new Workout();
 				workout.setWorkoutid(RS.getInt("workoutid"));
 				workout.setDate(RS.getString("date"));
 				workout.setPersonid(RS.getInt("personid"));
-				
+
 				list.add(workout);
 				System.out.println(list.toString());
 			}
@@ -449,10 +443,10 @@ public class WorkoutService {
 			}
 		}
 
-		
 		return list;
 
 	}
+
 	// Read workouts by workoutid
 	@GET
 	@Path("/readworkoutsbyid/{workoutid}")
@@ -467,15 +461,13 @@ public class WorkoutService {
 			stmt.setInt(1, workoutid);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Workout workout = new Workout();
 				workout.setWorkoutid(RS.getInt("workoutid"));
 				workout.setDate(RS.getString("date"));
 				workout.setPersonid(RS.getInt("personid"));
 				list.add(workout);
-				
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -488,123 +480,136 @@ public class WorkoutService {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return list;
 	}
-		
-		@POST
-		@Path("/addworkout")
-		@Consumes(MediaType.APPLICATION_JSON)
-		@Produces(MediaType.APPLICATION_JSON)
-		public ArrayList<Workout> addWorkout(Workout workout) {
-			System.out.println("toimiiko");
-			ArrayList<Workout> list = new ArrayList<>();
-			Connection conn = Connections.getConnection();
+
+	@POST
+	@Path("/addworkout")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Workout> addWorkout(Workout workout) {
+		System.out.println("toimiiko");
+		ArrayList<Workout> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement("insert into workout(date, personid) values(?, ?)");
+			pstmt.setString(1, workout.getDate());
+			pstmt.setInt(2, workout.getPersonid());
+
+			list.add(workout);
+			System.out.println(list);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(
-						"insert into workout(date, personid) values(?, ?)");
-				pstmt.setString(1, workout.getDate());
-				pstmt.setInt(2, workout.getPersonid());
-				
-				list.add(workout);
-				System.out.println(list);
-				
-				pstmt.executeUpdate();
+				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			
-			ArrayList<Workout> list1 = readLastWorkout();
-			return list1;
-
 		}
 
-	
-	
+		ArrayList<Workout> list1 = readLastWorkout();
+		return list1;
+
+	}
+
 	// WORKOUTEXERCISE SERVICES
-	
-		@GET
-		@Path("/readworkoutexercise/{workoutid}")
-		@Produces(MediaType.APPLICATION_JSON)
-		public ArrayList<WorkoutExercise> readWorkoutExercises(@PathParam("workoutid") int workoutid) {
 
-			ArrayList<WorkoutExercise> list = new ArrayList<>();
-			Connection conn = Connections.getConnection();
+	@GET
+	@Path("/readworkoutexercise/{workoutid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<WorkoutExercise> readWorkoutExercises(@PathParam("workoutid") int workoutid) {
+
+		ArrayList<WorkoutExercise> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from workout inner join workoutexercise on workout.workoutid = workoutexercise.workoutid "
+					+ "inner join exercise on workoutexercise.exerciseid = exercise.exerciseid where workoutexercise.workoutid=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, workoutid);
+			ResultSet RS = stmt.executeQuery();
+
+			while (RS.next()) {
+				WorkoutExercise workoutexercise = new WorkoutExercise();
+				workoutexercise.setWorkoutexerciseid(RS.getInt("workoutexerciseid"));
+				workoutexercise.setWorkoutid(RS.getInt("workoutid"));
+				workoutexercise.setExerciseid(RS.getInt("exerciseid"));
+				workoutexercise.setReps(RS.getInt("reps"));
+				workoutexercise.setWeights(RS.getInt("weights"));
+				workoutexercise.setDuration(RS.getInt("duration"));
+				workoutexercise.setDate(RS.getString("date"));
+				workoutexercise.setPersonid(RS.getInt("personid"));
+				workoutexercise.setMovename(RS.getString("movename"));
+				workoutexercise.setPicture(RS.getString("picture"));
+
+				list.add(workoutexercise);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			try {
-				String sql = "select * from workoutexercise where workoutid=?";
-				PreparedStatement stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, workoutid);
-				ResultSet RS = stmt.executeQuery();
-
-			
-				while (RS.next()) {
-					WorkoutExercise workoutexercise = new WorkoutExercise();
-					workoutexercise.setWorkoutexerciseid(RS.getInt("workoutexerciseid"));
-					workoutexercise.setWorkoutid(RS.getInt("workoutid"));
-					workoutexercise.setExerciseid(RS.getInt("exerciseid"));
-					workoutexercise.setReps(RS.getInt("reps"));
-					workoutexercise.setWeights(RS.getInt("weights"));
-					workoutexercise.setDuration(RS.getInt("duration"));
-					
-					list.add(workoutexercise);
-				}
+				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-
-			return list;
-
 		}
-		
-		@POST
-		@Path("/addworkoutexercise")
-		@Consumes(MediaType.APPLICATION_JSON)
-		@Produces(MediaType.APPLICATION_JSON)
-		public ArrayList<WorkoutExercise> addWorkout(WorkoutExercise workoutexercise) {
-			System.out.println("toimiiko");
-			ArrayList<WorkoutExercise> list = new ArrayList<>();
-			Connection conn = Connections.getConnection();
-			try {
-				PreparedStatement pstmt = conn.prepareStatement(
-						"insert into workoutexercise(reps,weights,duration,workoutid,exerciseid) values(?, ?, ?, ?, ?)");
+
+		return list;
+
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	@POST
+	@Path("/addworkoutexercise")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<WorkoutExercise> addWorkout(ArrayList<WorkoutExercise> list) {
+		System.out.println("toimiiko");
+		System.out.println("listan koko" + list.size());
+		int koko = list.size();
+		// ArrayList<WorkoutExercise> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			for (int i = 0; i < koko; i++) {
+			PreparedStatement pstmt = conn.prepareStatement(
+					"insert into workoutexercise(reps,weights,duration,workoutid,exerciseid) values(?, ?, ?, ?, ?)");
+			
+				WorkoutExercise workoutexercise = list.get(i);
+				
 				pstmt.setInt(1, workoutexercise.getReps());
 				pstmt.setInt(2, workoutexercise.getWeights());
 				pstmt.setInt(3, workoutexercise.getDuration());
 				pstmt.setInt(4, workoutexercise.getWorkoutid());
 				pstmt.setInt(5, workoutexercise.getExerciseid());
-				
+
 				list.add(workoutexercise);
-				System.out.println(list);
-				
+				System.out.println("testing");
+
 				pstmt.executeUpdate();
+				pstmt.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			return list;
 		}
+		return list;
+	}
 
 }
