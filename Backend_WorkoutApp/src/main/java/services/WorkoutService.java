@@ -1,11 +1,13 @@
 package services;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -564,6 +566,75 @@ public class WorkoutService {
 		return list;
 
 	}
+	
+	@GET
+	@Path("/readworkoutexercisesbyid/{workoutid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<WorkoutExercise> readWorkoutExercisesById(@PathParam("workoutid") int workoutid) {
+
+		ArrayList<WorkoutExercise> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from workout inner join workoutexercise on workout.workoutid = workoutexercise.workoutid "
+					+ "inner join exercise on workoutexercise.exerciseid = exercise.exerciseid where workoutexercise.workoutid=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, workoutid);
+			ResultSet RS = stmt.executeQuery();
+
+			while (RS.next()) {
+				WorkoutExercise workoutexercise = new WorkoutExercise();
+				workoutexercise.setWorkoutexerciseid(RS.getInt("workoutexerciseid"));
+				workoutexercise.setWorkoutid(RS.getInt("workoutid"));
+				workoutexercise.setExerciseid(RS.getInt("exerciseid"));
+				workoutexercise.setReps(RS.getInt("reps"));
+				workoutexercise.setWeights(RS.getInt("weights"));
+				workoutexercise.setDuration(RS.getInt("duration"));
+				workoutexercise.setDate(RS.getString("date"));
+				workoutexercise.setPersonid(RS.getInt("personid"));
+				workoutexercise.setMovename(RS.getString("movename"));
+				workoutexercise.setPicture(RS.getString("picture"));
+
+				list.add(workoutexercise);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		splitList(list, 3);
+		System.out.println(splitList(list, 3).toString());
+		System.out.println(splitList(list, 3).stream().toString());
+		return list;
+
+	}
+	
+	public static <T> ArrayList<T> splitList(ArrayList<WorkoutExercise> list, final int size) {
+		
+		//Palautetaan ArrayList
+		ArrayList<T> separatedList = new ArrayList<>(); 
+		
+		//Väliaikainen sublista List
+		java.util.List<WorkoutExercise> temp;
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			temp = list.subList(i, Math.min(list.size(), i+size));
+			if (temp.size() != 1) {
+				separatedList.add((T) (temp));
+			}
+		}
+		
+		System.out.println(separatedList);
+		return separatedList;
+		
+	}
+
 
 	/**
 	 * @param list
