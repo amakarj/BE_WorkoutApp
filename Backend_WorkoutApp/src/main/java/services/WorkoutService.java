@@ -178,6 +178,48 @@ public class WorkoutService {
 
 	}
 	
+	@GET
+	@Path("/readlastthree")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Measurements> readLastThree() {
+
+		ArrayList<Measurements> list = new ArrayList<>();
+		Connection conn = Connections.getConnection();
+		try {
+			String sql = "select * from measurements order by measid desc limit 3;";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet RS = stmt.executeQuery();
+
+		
+			while (RS.next()) {
+				Measurements meas = new Measurements();
+				meas.setPersonid(RS.getInt("personid"));
+				meas.setMeasid(RS.getInt("measid"));
+				meas.setWeight(RS.getInt("weight"));
+				meas.setChest(RS.getInt("chest"));
+				meas.setWaist(RS.getInt("waist"));
+				meas.setHip(RS.getInt("hip"));
+				meas.setBicep(RS.getInt("bicep"));
+				meas.setThigh(RS.getInt("thigh"));
+				meas.setDate(RS.getString("date"));
+				list.add(meas);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+
+	}
+	
 	
 	@POST
 	@Path("/addmeas")
