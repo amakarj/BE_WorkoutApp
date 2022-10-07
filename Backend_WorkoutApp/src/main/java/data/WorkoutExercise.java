@@ -214,6 +214,9 @@ public class WorkoutExercise {
 		this.picture = picture;
 	}
 	
+	public String toString() {
+		return workoutexerciseid + workoutid + exerciseid + reps + weights + duration + date + personid + movename + picture;
+	}
 	
 
 }

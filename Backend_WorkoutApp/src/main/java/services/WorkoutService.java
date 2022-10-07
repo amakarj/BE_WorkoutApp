@@ -491,7 +491,7 @@ public class WorkoutService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Workout> addWorkout(Workout workout) {
-		System.out.println("toimiiko");
+		//System.out.println("toimiiko");
 		ArrayList<Workout> list = new ArrayList<>();
 		Connection conn = Connections.getConnection();
 		try {
@@ -500,7 +500,7 @@ public class WorkoutService {
 			pstmt.setInt(2, workout.getPersonid());
 
 			list.add(workout);
-			System.out.println(list);
+			//System.out.println(list);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -607,22 +607,22 @@ public class WorkoutService {
 				e.printStackTrace();
 			}
 		}
-		splitList(list, 3);
-		System.out.println(splitList(list, 3).toString());
-		System.out.println(splitList(list, 3).stream().toString());
-		return list;
+		
+
+		return splitList(list, 3);
 
 	}
 	
+	//Method for splitting workouts exercises into separate lists
 	public static <T> ArrayList<T> splitList(ArrayList<WorkoutExercise> list, final int size) {
 		
-		//Palautetaan ArrayList
+		//ArrayList for return
 		ArrayList<T> separatedList = new ArrayList<>(); 
 		
-		//Väliaikainen sublista List
+		//Temporary List for sublist
 		java.util.List<WorkoutExercise> temp;
 		
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); i+=size) {
 			
 			temp = list.subList(i, Math.min(list.size(), i+size));
 			if (temp.size() != 1) {
@@ -631,6 +631,9 @@ public class WorkoutService {
 		}
 		
 		System.out.println(separatedList);
+		
+
+		
 		return separatedList;
 		
 	}
@@ -664,7 +667,7 @@ public class WorkoutService {
 				pstmt.setInt(5, workoutexercise.getExerciseid());
 
 				list.add(workoutexercise);
-				System.out.println("testing");
+				//System.out.println("testing");
 
 				pstmt.executeUpdate();
 				pstmt.close();
