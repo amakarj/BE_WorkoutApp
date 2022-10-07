@@ -372,7 +372,51 @@ public class WorkoutService {
 		return list;
 
 	}
+	
 
+	@PUT
+	@Path("/updatecheckedstofalse")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<Exercise> setCheckedToFalse(ArrayList<Exercise> list) {
+		
+		Connection conn = Connections.getConnection();
+		System.out.println(list);
+		int i = 0;
+	
+
+		try {
+
+			while (i < list.size()) {
+
+				Exercise exercise = list.get(i);
+				PreparedStatement pstmt = conn
+						.prepareStatement("update exercise set checked=? where exerciseid=?");
+			
+				pstmt.setBoolean(1, false);
+				pstmt.setInt(2, exercise.getExerciseid());
+				pstmt.executeUpdate();
+				System.out.println(exercise.getChecked());
+				i++;
+			
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		ArrayList<Exercise> exerciselist = readExercises();
+		// System.out.println(readExercises());
+		return exerciselist;
+	}
 	// WORKOUT SERVICES
 
 	@GET
@@ -648,8 +692,8 @@ public class WorkoutService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<WorkoutExercise> addWorkout(ArrayList<WorkoutExercise> list) {
-		System.out.println("toimiiko");
-		System.out.println("listan koko" + list.size());
+//		System.out.println("toimiiko");
+//		System.out.println("listan koko" + list.size());
 		int koko = list.size();
 		// ArrayList<WorkoutExercise> list = new ArrayList<>();
 		Connection conn = Connections.getConnection();
