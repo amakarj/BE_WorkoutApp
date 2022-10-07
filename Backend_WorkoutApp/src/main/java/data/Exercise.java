@@ -7,7 +7,6 @@ public class Exercise {
 	private String movepic;
 	private boolean checked;
 	
-//	Hei
 	public Exercise() {
 		super();
 	}
