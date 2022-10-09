@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,12 +27,13 @@ import data.WorkoutExercise;
 @Path("/workoutservice")
 public class WorkoutService {
 
-	
-@GET
-@Path("/hello")
-public String hello() {
-	return "hello";
-}
+	@Path("/hello")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String sayHello() {
+		return "Hello fellow!";
+	}
+
 // PERSON SERVICES
 	@GET
 	@Path("/readperson")
@@ -184,7 +184,6 @@ public String hello() {
 
 	}
 
-	
 	@GET
 	@Path("/readlastthree")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -197,7 +196,6 @@ public String hello() {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
-		
 			while (RS.next()) {
 				Measurements meas = new Measurements();
 				meas.setPersonid(RS.getInt("personid"));
@@ -226,8 +224,6 @@ public String hello() {
 		return list;
 
 	}
-	
-	
 
 	@POST
 	@Path("/addmeas")
@@ -378,33 +374,29 @@ public String hello() {
 		return list;
 
 	}
-	
 
 	@PUT
 	@Path("/updatecheckedstofalse")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ArrayList<Exercise> setCheckedToFalse(ArrayList<Exercise> list) {
-		
+
 		Connection conn = Connections.getConnection();
 		System.out.println(list);
 		int i = 0;
-	
 
 		try {
 
 			while (i < list.size()) {
 
 				Exercise exercise = list.get(i);
-				PreparedStatement pstmt = conn
-						.prepareStatement("update exercise set checked=? where exerciseid=?");
-			
+				PreparedStatement pstmt = conn.prepareStatement("update exercise set checked=? where exerciseid=?");
+
 				pstmt.setBoolean(1, false);
 				pstmt.setInt(2, exercise.getExerciseid());
 				pstmt.executeUpdate();
 				System.out.println(exercise.getChecked());
 				i++;
-			
 
 			}
 
@@ -541,7 +533,7 @@ public String hello() {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Workout> addWorkout(Workout workout) {
-		//System.out.println("toimiiko");
+		// System.out.println("toimiiko");
 		ArrayList<Workout> list = new ArrayList<>();
 		Connection conn = Connections.getConnection();
 		try {
@@ -550,7 +542,7 @@ public String hello() {
 			pstmt.setInt(2, workout.getPersonid());
 
 			list.add(workout);
-			//System.out.println(list);
+			// System.out.println(list);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -613,11 +605,10 @@ public String hello() {
 			}
 		}
 
-		
-		return splitList(list, 3);
+return splitList(list, 3);
 
 	}
-	
+
 //	@GET
 //	@Path("/readworkoutexercisespersonid/{personid}")
 //	@Produces(MediaType.APPLICATION_JSON)
@@ -662,9 +653,7 @@ public String hello() {
 //		return splitList(list, 3);
 //
 //	}
-	
-	
-	
+
 	@GET
 	@Path("/readworkoutexercisesbyid/{workoutid}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -705,37 +694,33 @@ public String hello() {
 				e.printStackTrace();
 			}
 		}
-		
 
 		return splitList(list, 3);
 
 	}
-	
-	//Method for splitting workouts exercises into separate lists
+
+	// Method for splitting workouts exercises into separate lists
 	public static <T> ArrayList<T> splitList(ArrayList<WorkoutExercise> list, final int size) {
-		
-		//ArrayList for return
-		ArrayList<T> separatedList = new ArrayList<>(); 
-		
-		//Temporary List for sublist
+
+		// ArrayList for return
+		ArrayList<T> separatedList = new ArrayList<>();
+
+		// Temporary List for sublist
 		java.util.List<WorkoutExercise> temp;
-		
-		for (int i = 0; i < list.size(); i+=size) {
-			
-			temp = list.subList(i, Math.min(list.size(), i+size));
+
+		for (int i = 0; i < list.size(); i += size) {
+
+			temp = list.subList(i, Math.min(list.size(), i + size));
 			if (temp.size() != 1) {
 				separatedList.add((T) (temp));
 			}
 		}
-		
+
 		System.out.println(separatedList);
-		
 
-		
 		return separatedList;
-		
-	}
 
+	}
 
 	/**
 	 * @param list
@@ -753,11 +738,11 @@ public String hello() {
 		Connection conn = Connections.getConnection();
 		try {
 			for (int i = 0; i < koko; i++) {
-			PreparedStatement pstmt = conn.prepareStatement(
-					"insert into workoutexercise(reps,weights,duration,workoutid,exerciseid) values(?, ?, ?, ?, ?)");
-			
+				PreparedStatement pstmt = conn.prepareStatement(
+						"insert into workoutexercise(reps,weights,duration,workoutid,exerciseid) values(?, ?, ?, ?, ?)");
+
 				WorkoutExercise workoutexercise = list.get(i);
-				
+
 				pstmt.setInt(1, workoutexercise.getReps());
 				pstmt.setInt(2, workoutexercise.getWeights());
 				pstmt.setInt(3, workoutexercise.getDuration());
@@ -765,7 +750,7 @@ public String hello() {
 				pstmt.setInt(5, workoutexercise.getExerciseid());
 
 				list.add(workoutexercise);
-				//System.out.println("testing");
+				// System.out.println("testing");
 
 				pstmt.executeUpdate();
 				pstmt.close();
