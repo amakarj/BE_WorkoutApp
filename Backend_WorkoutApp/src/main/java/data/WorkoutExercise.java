@@ -215,7 +215,7 @@ public class WorkoutExercise {
 	}
 	
 	public String toString() {
-		return workoutexerciseid + workoutid + exerciseid + reps + weights + duration + date + personid + movename + picture;
+		return workoutexerciseid + "workoutid " + workoutid +" " + exerciseid +" " + reps + " " +weights +" " + duration +" " + date +" " + personid +" " + movename +" " + picture;
 	}
 	
 

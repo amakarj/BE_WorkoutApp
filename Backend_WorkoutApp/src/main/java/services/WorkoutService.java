@@ -28,6 +28,12 @@ import data.WorkoutExercise;
 @Path("/workoutservice")
 public class WorkoutService {
 
+	
+@GET
+@Path("/hello")
+public String hello() {
+	return "hello";
+}
 // PERSON SERVICES
 	@GET
 	@Path("/readperson")
@@ -427,7 +433,7 @@ public class WorkoutService {
 		ArrayList<Workout> list = new ArrayList<>();
 		Connection conn = Connections.getConnection();
 		try {
-			String sql = "select * from workout";
+			String sql = "select * from workout order by workoutid desc";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet RS = stmt.executeQuery();
 
@@ -438,7 +444,7 @@ public class WorkoutService {
 				workout.setPersonid(RS.getInt("personid"));
 
 				list.add(workout);
-				System.out.println(list.toString());
+				System.out.println("onko se tämä " + list.toString());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -607,9 +613,57 @@ public class WorkoutService {
 			}
 		}
 
-		return list;
+		
+		return splitList(list, 3);
 
 	}
+	
+//	@GET
+//	@Path("/readworkoutexercisespersonid/{personid}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public ArrayList<WorkoutExercise> readWorkoutExercisesByPersonId(@PathParam("personid") int personid) {
+//
+//		ArrayList<WorkoutExercise> list = new ArrayList<>();
+//		Connection conn = Connections.getConnection();
+//		try {
+//			String sql = "select * from workout inner join workoutexercise on workout.workoutid = workoutexercise.workoutid "
+//					+ "inner join exercise on workoutexercise.exerciseid = exercise.exerciseid where workout.personid=?";
+//			PreparedStatement stmt = conn.prepareStatement(sql);
+//			stmt.setInt(1, personid);
+//			ResultSet RS = stmt.executeQuery();
+//
+//			while (RS.next()) {
+//				WorkoutExercise workoutexercise = new WorkoutExercise();
+//				workoutexercise.setWorkoutexerciseid(RS.getInt("workoutexerciseid"));
+//				workoutexercise.setWorkoutid(RS.getInt("workoutid"));
+//				workoutexercise.setExerciseid(RS.getInt("exerciseid"));
+//				workoutexercise.setReps(RS.getInt("reps"));
+//				workoutexercise.setWeights(RS.getInt("weights"));
+//				workoutexercise.setDuration(RS.getInt("duration"));
+//				workoutexercise.setDate(RS.getString("date"));
+//				workoutexercise.setPersonid(RS.getInt("personid"));
+//				workoutexercise.setMovename(RS.getString("movename"));
+//				workoutexercise.setPicture(RS.getString("picture"));
+//
+//				list.add(workoutexercise);
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				conn.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	
+//		return splitList(list, 3);
+//
+//	}
+	
+	
 	
 	@GET
 	@Path("/readworkoutexercisesbyid/{workoutid}")
