@@ -150,7 +150,7 @@ public class WorkoutService {
 		ArrayList<Measurements> list = new ArrayList<>();
 		Connection conn = Connections.getConnection();
 		try {
-			String sql = "select * from person inner join measurements on person.personid=measurements.personid where person.personid=?";
+			String sql = "select * from person inner join measurements on person.personid=measurements.personid where person.personid=? order by measid desc limit 1";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, personid);
 			ResultSet RS = stmt.executeQuery();
