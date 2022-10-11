@@ -606,7 +606,7 @@ public class WorkoutService {
 		System.out.println("pääseekö deleteen?" + workoutid);
 		Connection conn=Connections.getConnection();
 		try {
-			PreparedStatement pstmt=conn.prepareStatement("delete from workout where id=?");
+			PreparedStatement pstmt=conn.prepareStatement("delete from workout where workoutid=?");
 			pstmt.setInt(1, workoutid);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
