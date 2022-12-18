@@ -1,6 +1,8 @@
 # Workout application
 
-**This repository is created for the backend of our workout app. 
+**This repository is created for the backend of our workout app. The project is for Mobile Programming course of Häme University of Applied Sciences.** 
+
+Team: 
 
 ## Description
 
