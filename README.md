@@ -1,6 +1,6 @@
 # Workout application
 
-**This repository is created for the backend of our workout app. The project is for Mobile Programming course of Häme University of Applied Sciences. Here you can check [the frontend](https://github.com/jenhakk/workout-app) part.** 
+**This repository is created for the backend of our workout app. The project is for Mobile Programming course of Häme University of Applied Sciences. Here you can check [the frontend](https://github.com/amakarj/workout-app) part.** 
 
 Team: [Jenna Hakkarainen](https://github.com/jenhakk), [Amanda Karjalainen](https://github.com/amakarj), [Anna-Maria Palm](https://github.com/A-d-f) 
 
